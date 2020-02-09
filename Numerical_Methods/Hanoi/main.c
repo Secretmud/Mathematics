@@ -35,7 +35,7 @@ int main(int argc, char * argv[]) {
 /*
  * Recursive tower of hanoi.
  * @PARAM set, is the number of blocks to move in the tower of hanoi game. 
- * @RETURN long long, 2*hanoi(set-1)+1 if set > 0
+ * @RETURN uint64_t 2*hanoi(set-1)+1 if set > 0
  * */
 uint64_t hanoi(int set) {
     if (set == 0)
