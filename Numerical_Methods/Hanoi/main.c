@@ -16,7 +16,6 @@ int main(int argc, char * argv[]) {
         printf("Please supply a set of hanoi\n\te.g\t./hanoi 5");
         return 0;
     }
-    printf("Size of long long:\t%d\n", sizeof(unsigned long long));
     int set = atoi(argv[1]);
     int x = 0;
     uint64_t hanoi_number = hanoi(set);
