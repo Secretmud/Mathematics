@@ -27,7 +27,7 @@ int main(int argc, char * argv[]) {
     f = fopen(argv[1], "r");
     // argv[0] is the file executed, if the total amout of arguments is 1 then
     // the program will exit with a description on how to run it.
-    if (argc > 1) {
+    if (argc == 4) {
         printf("FILE:\t%s\nROWS:\t%s\nCOLS:\t%s\n\n", argv[1], argv[2], argv[3]);
         if (f) {
             // puts the contents of the file into a 2d-array
@@ -49,7 +49,6 @@ int main(int argc, char * argv[]) {
     } else {
         printf("You need to supply 3 arguments:\n\ta.out file rows col\n\n");
     }
-    fclose(f);
     return 0;
 }
 
