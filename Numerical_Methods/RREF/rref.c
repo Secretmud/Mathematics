@@ -48,8 +48,8 @@ int main(int argc, char * argv[]) {
         pMatrix(row, col, array);
     } else {
         printf("You need to supply 3 arguments:\n\ta.out file rows col\n\n");
+        fclose(f);
     }
-    fclose(f);
     return 0;
 }
 
