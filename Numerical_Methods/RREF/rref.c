@@ -8,8 +8,8 @@
  * @subject Matte1000 DAFE1000
  * */
 
-void rref(int row, int col, int array[][col]);
-void pMatrix(int row, int col, int array[][col]); // Outputs the matrix
+void rref(int row, int col, double array[][col]);
+void pMatrix(int row, int col, double array[][col]); // Outputs the matrix
 /*
  * How to compile with gcc:
  *      gcc -o rref main.c
@@ -23,7 +23,7 @@ void pMatrix(int row, int col, int array[][col]); // Outputs the matrix
 int main(int argc, char * argv[]) {
     FILE *f;
     int row = atoi(argv[2]), col = atoi(argv[3]);
-    int array[row][col];
+    double array[row][col];
     f = fopen(argv[1], "r");
     // argv[0] is the file executed, if the total amout of arguments is 1 then
     // the program will exit with a description on how to run it.
@@ -33,7 +33,7 @@ int main(int argc, char * argv[]) {
             // puts the contents of the file into a 2d-array
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
-                    fscanf(f, "%d", &array[i][j]);
+                    fscanf(f, "%lf", &array[i][j]);
                 }
             }
             // closing the file stream, so that other programs can use the file. 
@@ -49,18 +49,18 @@ int main(int argc, char * argv[]) {
     } else {
         printf("You need to supply 3 arguments:\n\ta.out file rows col\n\n");
     }
-    f.close();
+    fclose(f);
     return 0;
 }
 
 /* Prints the matrix, using a nested for-loop. taking row, col and array as
  * parameters.
  * */
-void pMatrix(int row, int col, int array[][col])
+void pMatrix(int row, int col, double array[][col])
 {
     for (int i=0; i<row; i++) {
         for (int j=0; j<col; j++) {
-            printf("%d\t", array[i][j]);
+            printf("%.2f\t", array[i][j]);
         }
         printf("\n");
     }
@@ -75,10 +75,10 @@ void pMatrix(int row, int col, int array[][col])
  * 3) If a matrix has a leading 1 at the top right corner then every row below
  *    consists of only zeroes
  * */
-void rref(int row, int col, int array[][col]) {
+void rref(int row, int col, double array[][col]) {
     int lead = 0, i = 0;
     //create a pointer array, size of col. Used for swapping rows.
-    int * hold[col];
+    double hold[col];
     for (int r = 0; r < row; r++) {
         // checks if the col is less or equal to 0, which would mean that the
         // matrix it self is non exsistent.
@@ -108,7 +108,7 @@ void rref(int row, int col, int array[][col]) {
         }
         //If array[r][lead] doesn't qeual 0, divide row r by array[r][lead]
         if (array[r][lead] != 0) {
-            int divisor = array[r][lead];
+            double divisor = array[r][lead];
             for (int i = 0; i < col; i++) {
                 array[r][i] /= divisor;
             }
@@ -116,11 +116,11 @@ void rref(int row, int col, int array[][col]) {
         for (i = 0; i < row; i++) {
            //Subtract array[i][lead] multiplied by row r from row i
             if (i != r) {
-                int base = array[i][lead];
-                printf("\nROW -> %d\tBASE -> %d\tBASE*ROW -> %d\n", i+1, base, r);
+                double base = array[i][lead];
+                printf("\nROW -> %d\tBASE -> %.2f\tBASE*ROW -> %d\n", i+1, base, r);
                 for (int k = 0; k < col; k++) {
                     array[i][k] -= base*array[r][k];
-                    printf("%d\t", array[i][k]);
+                    printf("%.2f\t", array[i][k]);
                 }
                 printf("\n");
             }
