@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <math.h>
 
 #define PI 3.1415926535897932384626433
@@ -28,6 +29,7 @@ int main(int argc, char * argv[]) {
     // Checking if we have 4 arguments ./complex n a b. Where n is the power, a
     // is the real part and b is the imaginary part.
     if (argc == 4) {
+        clock_t start = clock();
         // Using atoi to convert the commandline arguments into ints and
         // asigning them to the correct complex struct part.
         complex.power = atoi(argv[1]);
@@ -64,6 +66,7 @@ int main(int argc, char * argv[]) {
             }
             printf("%.6f%c%.6fi\n", complex.real, complex.operator, complex.imag);
         }
+        printf("Total time:\t%.4fs\n", ((float)clock() - start)/CLOCKS_PER_SEC);
     } else {
         printf("You need to pass 3 arguments when running this program");
         printf("\n\t1: the nth power");
