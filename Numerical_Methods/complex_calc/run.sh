@@ -1,4 +1,4 @@
 #!/bin/sh
 
 gcc -lm main.c -o complex
-./complex 1000000 10 10
+./complex 4 0 -16

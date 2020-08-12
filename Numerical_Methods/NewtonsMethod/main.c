@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 double f(double x);
@@ -12,21 +13,21 @@ double fd(double x);
 
 int main(int argc, char * argv[]) {
     if (argc == 3) {
-        double x = atoi(argv[1]); 
+        double x = atof(argv[1]); 
         for (int i = 0; i < atoi(argv[2]); i++) {
-            printf("%.64f\n", x);
+            printf("%.10f\n", x);
             x = x - (f(x)/fd(x));
         }
     } else {
-        printf("You've to pass two arguments, x and itterations");
+        printf("You've to pass two arguments, x and itterations\n");
     }
     return 0;
 }
 
 double f(double x) {
-    return cos(x)-x;
+    return -0.2*(x-12)+0.005*100;
 }
 
 double fd(double x) {
-    return -sin(x)-1; 
+    return -0.2*(x-12)+0.005*100;
 }

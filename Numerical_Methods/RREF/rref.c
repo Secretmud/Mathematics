@@ -1,5 +1,6 @@
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 /* Written with inspiration from the book "Praktisk Introduksjon til Numberiske
  * Metodar", written by Solve Selsto. 
@@ -8,7 +9,7 @@
  * @subject Matte1000 DAFE1000
  * */
 
-void rref(int row, int col, double array[][col]);
+void rref(int row, int col, double array[][col], int print_steps);
 void pMatrix(int row, int col, double array[][col]); // Outputs the matrix
 /*
  * How to compile with gcc:
@@ -22,13 +23,16 @@ void pMatrix(int row, int col, double array[][col]); // Outputs the matrix
  * */
 int main(int argc, char * argv[]) {
     FILE *f;
-    int row = atoi(argv[2]), col = atoi(argv[3]);
+    int row = atoi(argv[2]), col = atoi(argv[3]), print_steps = 0;
     double array[row][col];
     f = fopen(argv[1], "r");
+    for (int i = 0; i < argc; i++)
+        if (strcmp(argv[i], "-p") == 0)
+            print_steps = 1;
     // argv[0] is the file executed, if the total amout of arguments is 1 then
     // the program will exit with a description on how to run it.
-    if (argc == 4) {
-        printf("FILE:\t%s\nROWS:\t%s\nCOLS:\t%s\n\n", argv[1], argv[2], argv[3]);
+    if (argc >= 4) {
+        printf("FILE:\t%s\nROWS:\t%s\nCOLS:\t%s\nARGUMENTS:\t%d\nPRINT_STEPS:\t%d\n\n", argv[1], argv[2], argv[3], argc, print_steps);
         if (f) {
             // puts the contents of the file into a 2d-array
             for (int i = 0; i < row; i++) {
@@ -42,7 +46,7 @@ int main(int argc, char * argv[]) {
         // pMatrix - print matrix before rref is performed
         pMatrix(row, col, array);
         // Reduced row echelon form
-        rref(row, col, array);
+        rref(row, col, array, print_steps);
         // pMatrix - printing the matrix after rref is performed
         printf("\n");
         pMatrix(row, col, array);
@@ -75,7 +79,7 @@ void pMatrix(int row, int col, double array[][col])
  * 3) If a matrix has a leading 1 at the top right corner then every row below
  *    consists of only zeroes
  * */
-void rref(int row, int col, double array[][col]) {
+void rref(int row, int col, double array[][col], int print_steps) {
     int lead = 0, i = 0;
     //create a pointer array, size of col. Used for swapping rows.
     double hold[col];
@@ -109,20 +113,39 @@ void rref(int row, int col, double array[][col]) {
         //If array[r][lead] doesn't qeual 0, divide row r by array[r][lead]
         if (array[r][lead] != 0) {
             double divisor = array[r][lead];
+            if (print_steps == 1)
+                printf("\nROW -> %d\tDIVISOR -> %.6f\t ROW[%d]/DIVISOR  -> %d\n", i, divisor, r, r);
+            for (int i = 0; i < col; i++)
+                if (print_steps == 1)
+                    printf("%.2f\t", array[r][i]);
+            if (print_steps == 1)
+                printf("\n");
             for (int i = 0; i < col; i++) {
                 array[r][i] /= divisor;
+                if (print_steps == 1)
+                    printf("%.2f\t", array[r][i]);
             }
+            if (print_steps == 1)
+                printf("\n");
         }
         for (i = 0; i < row; i++) {
            //Subtract array[i][lead] multiplied by row r from row i
             if (i != r) {
                 double base = array[i][lead];
-                printf("\nROW -> %d\tBASE -> %.2f\tBASE*ROW -> %d\n", i+1, base, r);
+                if (print_steps == 1)
+                    printf("\nROW -> %d\tBASE -> %.6f\tBASE*ROW[%d] - ROW[%d] -> %d\n", i, base, i, r,  r);
+                for (int k = 0; k < col; k++)
+                    if (print_steps == 1)
+                        printf("%.2f\t", array[i][k]);
+                if (print_steps == 1)
+                    printf("\n");
                 for (int k = 0; k < col; k++) {
                     array[i][k] -= base*array[r][k];
-                    printf("%.2f\t", array[i][k]);
+                    if (print_steps == 1)
+                        printf("%.2f\t", array[i][k]);
                 }
-                printf("\n");
+                if (print_steps == 1)
+                    printf("\n");
             }
         }
         lead++;
